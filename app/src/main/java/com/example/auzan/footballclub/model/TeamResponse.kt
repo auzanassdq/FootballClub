@@ -1,11 +1,8 @@
 package com.example.auzan.footballclub.model
 
 /**
- * Created by auzan on 11/30/2018.
+ * Created by auzan on 12/1/2018.
  * Github: @auzanassdq
  */
+class TeamResponse (val teams: List<Team>?)
 
-data class TeamResponse (
-    val teams: List<EventItem>,
-    val events: List<EventItem>
-)

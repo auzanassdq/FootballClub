@@ -8,4 +8,6 @@
     <item name="team_badge" type="id" />
     <item name="team_name" type="id" />
     <item name="tv_event_date" type="id" />
+    <item name="ly_score" type="id" />
+    <item name="img_away_badge" type="id" />
 </resources>

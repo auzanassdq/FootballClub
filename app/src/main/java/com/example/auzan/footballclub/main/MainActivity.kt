@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.EventLog
 import android.view.View
 import android.widget.*
 import com.example.auzan.footballclub.DetailActivity
@@ -63,7 +64,10 @@ class MainActivity : AppCompatActivity(), MainView {
             }
         }
 
-        adapter = EventAdapter(teams)
+        adapter = EventAdapter(teams)  {
+//            this.startActivity<DetailActivity>("Event" to it)
+            items: EventItem -> startActivity<DetailActivity>("Event" to items)
+        }
 
         listTeam.adapter = adapter
 
@@ -76,7 +80,6 @@ class MainActivity : AppCompatActivity(), MainView {
         swipeRefresh.onRefresh {
             presenter.getEventList()
         }
-
     }
 
     override fun showLoading() {

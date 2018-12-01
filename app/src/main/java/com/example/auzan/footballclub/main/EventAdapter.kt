@@ -22,7 +22,8 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Github: @auzanassdq
  */
 
-class EventAdapter (private val eventItems: List<EventItem>)
+class EventAdapter (private val eventItems: List<EventItem>,
+                    private val listener: (EventItem) -> Unit)
     : RecyclerView.Adapter<EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         return EventViewHolder (
@@ -35,7 +36,7 @@ class EventAdapter (private val eventItems: List<EventItem>)
     override fun getItemCount(): Int = eventItems.size
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.bindItem(eventItems[position])
+        holder.bindItem(eventItems[position], listener)
     }
 }
 
@@ -125,7 +126,7 @@ class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val awayScore: TextView = view.find(tv_away_score)
     private val awayTeam: TextView = view.find(tv_away_team)
 
-    fun bindItem(eventItem: EventItem) {
+    fun bindItem(eventItem: EventItem, listener: (EventItem) -> Unit) {
         val date = strToDate(eventItem.eventDate)
         eventDate.text = changeFormatDate(date)
 
@@ -135,5 +136,6 @@ class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         awayScore.text = eventItem.awayScore
         awayTeam.text = eventItem.awayTeam
 
+        itemView.setOnClickListener { listener(eventItem) }
     }
 }

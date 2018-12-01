@@ -10,18 +10,6 @@ import com.example.auzan.footballclub.BuildConfig
 
 object TheSportDBApi {
 
-    fun getTeams(league: String?) : String {
-        return Uri.parse(BuildConfig.BASE_URL).buildUpon()
-            .appendPath("api")
-            .appendPath("v1")
-            .appendPath("json")
-            .appendPath(BuildConfig.TSDB_API_KEY)
-            .appendPath("search_all_teams.php")
-            .appendQueryParameter("l", league)
-            .build()
-            .toString()
-    }
-
     fun getEventMatchs() : String {
         return Uri.parse(BuildConfig.BASE_URL).buildUpon()
             .appendPath("api")
@@ -30,6 +18,18 @@ object TheSportDBApi {
             .appendPath(BuildConfig.TSDB_API_KEY)
             .appendPath("eventspastleague.php")
             .appendQueryParameter("id", "4328")
+            .build()
+            .toString()
+    }
+
+    fun getTeams(id: String?) : String {
+        return Uri.parse(BuildConfig.BASE_URL).buildUpon()
+            .appendPath("api")
+            .appendPath("v1")
+            .appendPath("json")
+            .appendPath(BuildConfig.TSDB_API_KEY)
+            .appendPath("lookupteam.php")
+            .appendQueryParameter("id", id)
             .build()
             .toString()
     }
