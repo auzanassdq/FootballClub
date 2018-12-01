@@ -16,7 +16,7 @@ class DetailPresenter (private val view: DetailView,
                        private val apiRepository: ApiRepository,
                        private val gson: Gson){
 
-        fun getEventDetails(eventId: String, homeTeamId: String, awayTeamId: String){
+        fun getEventDetails(homeTeamId: String, awayTeamId: String){
             view.showLoading()
             doAsync {
 

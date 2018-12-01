@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.EventLog
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -50,12 +51,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
         var event = intent.getParcelableExtra<EventItem>("Event")
 
-        var TES = "this"
-        Log.d(TES, "isinya " + event.eventName)
-
         layoutDetailActivity(event)
         getTeam(event)
-
     }
 
     override fun showLoading() {
@@ -69,10 +66,6 @@ class DetailActivity: AppCompatActivity(), DetailView {
     }
 
     override fun showTeamDetails(homeTeam: List<Team>, awayTeam: List<Team>) {
-        var TES = "tes"
-        Log.d(TES, "ini gambar " + homeTeam[0].teamBadge)
-        Log.d(TES, "ini gambar " + awayTeam[0].teamBadge)
-
         Picasso.get().load(homeTeam[0].teamBadge).into(imgHomeBadge)
         Picasso.get().load(awayTeam[0].teamBadge).into(imgAwayBadge)
     }
@@ -81,27 +74,30 @@ class DetailActivity: AppCompatActivity(), DetailView {
         val request = ApiRepository()
         val gson = Gson()
         presenter = DetailPresenter(this, request, gson)
-        presenter.getEventDetails(event.eventId!!, event.homeTeamId!!, event.awayTeamId!!)
+        presenter.getEventDetails(event.homeTeamId!!, event.awayTeamId!!)
     }
 
     fun layoutDetailActivity(event: EventItem){
         val date = strToDate(event.eventDate)
-        relativeLayout {
-            backgroundColor = Color.WHITE
+        linearLayout {
+            lparams(matchParent, wrapContent)
+            orientation = LinearLayout.VERTICAL
+            padding = dip(16)
             dataview = scrollView {
 
                 linearLayout {
                     orientation = LinearLayout.VERTICAL
-                    padding = dip(16)
+                    backgroundColor = Color.WHITE
 
                     // Date
                     textView {
-                        textColor = ContextCompat.getColor(context, R.color.colorPrimary)
                         gravity = Gravity.CENTER
                         text = changeFormatDate(date)
-                    }
+                        textColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                    }.lparams(width = matchParent, height = wrapContent)
 
-                    constraintLayout {
+                    linearLayout {
+                        gravity = Gravity.CENTER
 
                         // Home Team
                         linearLayout {
@@ -109,8 +105,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
                             imgHomeBadge = imageView {
                             }.lparams {
-                                width = dip(100)
-                                height = dip(100)
+                                width = dip(80)
+                                height = dip(80)
                                 gravity = Gravity.CENTER
                             }
 
@@ -118,71 +114,224 @@ class DetailActivity: AppCompatActivity(), DetailView {
                                 text = event.homeTeam
                                 gravity = Gravity.CENTER
                                 textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
-                                textSize = 24f
+                                textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
-                            }.lparams(width = wrapContent, height = wrapContent)
-                        }.lparams(wrapContent, wrapContent){
-                            leftToLeft = PARENT_ID
-                            topToTop = PARENT_ID
-                            endToStart = ly_score
-                        }
+                            }
+                        }.lparams(matchParent, wrapContent, 1f)
 
                         // Score
                         linearLayout {
-                            id = ly_score
-                            orientation = LinearLayout.HORIZONTAL
                             gravity = Gravity.CENTER
-                            padding = dip(16)
 
                             textView {
-                                textSize = 48f
+                                textSize = 42f
                                 setTypeface(null, Typeface.BOLD)
                                 text = event.homeScore
-                            }.lparams(width = wrapContent, height = wrapContent)
+                            }
 
                             textView{
                                 padding = dip(16)
                                 textSize = 24f
                                 text = "VS"
-                            }.lparams(width = wrapContent, height = matchParent)
+                            }
 
                             textView {
                                 text = event.awayScore
-                                textSize = 48f
+                                textSize = 42f
                                 setTypeface(null, Typeface.BOLD)
-                            }.lparams(width = wrapContent, height = wrapContent)
-                        }.lparams(width = wrapContent, height = wrapContent){
-                            horizontalBias = 0.501f
-                            leftToLeft = PARENT_ID
-                            rightToRight = PARENT_ID
-                        }
+                            }
+
+                        }.lparams(matchParent, wrapContent, 1f)
 
                         // Away Team
                         linearLayout {
                             orientation = LinearLayout.VERTICAL
 
                             imgAwayBadge = imageView {
-                                id = img_away_badge
                             }.lparams {
                                 gravity = Gravity.CENTER
-                                width = dip(100)
-                                height = dip(100)
+                                width = dip(80)
+                                height = dip(80)
                             }
                             textView {
                                 text = event.awayTeam
                                 gravity = Gravity.CENTER
                                 textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
-                                textSize = 24f
+                                textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
-                            }.lparams(width = wrapContent, height = wrapContent)
-                        }.lparams(width = wrapContent, height = wrapContent){
-                            rightToRight = PARENT_ID
-                            startToEnd = ly_score
-                            topToTop = PARENT_ID
-                        }
-                    }.lparams(width = matchParent, height = wrapContent)
+                            }
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
 
-                }.lparams(width = matchParent, height = matchParent)
+                    view {
+                        backgroundColor = Color.LTGRAY
+                    }.lparams(matchParent, dip(1)) {
+                        topMargin = dip(8)
+                    }
+
+                    // goals
+                    linearLayout {
+                        topPadding = dip(8)
+
+                        textView {
+                            text = event.homeGoalDetails
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Goals"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayGoalsDetails
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    // shots
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeShots
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Shots"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayShots
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    view {
+                        backgroundColor = Color.LTGRAY
+                    }.lparams(matchParent, dip(1)) {
+                        topMargin = dip(8)
+                    }
+
+                    // lineups
+                    textView {
+                        topPadding = dip(8)
+                        gravity = Gravity.CENTER
+                        textSize = 18f
+                        setTypeface(null, Typeface.BOLD)
+                        text = "Lineups"
+                    }
+
+                    // goal keeper
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeLineupGoalKeeper
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Goal Keeper"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayLineupGoalKeeper
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    // defense
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeLineupDefense
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Defense"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayLineupDefense
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    // midfield
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeLineupMidfield
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Midfield"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayLineupMidfield
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    // forward
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeLineupForward
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Forward"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayLineupForward
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                    // substitutes
+                    linearLayout {
+                        topPadding = dip(16)
+
+                        textView {
+                            text = event.homeLineupSubstitutes
+                        }.lparams(matchParent, wrapContent, 1f)
+
+                        textView {
+                            leftPadding = dip(8)
+                            rightPadding = dip(8)
+                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            text = "Substitutes"
+                        }
+
+                        textView {
+                            gravity = Gravity.RIGHT
+                            text = event.awayLineupSubstitutes
+                        }.lparams(matchParent, wrapContent, 1f)
+                    }
+
+                }
 
             }
 
@@ -192,7 +341,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                     PorterDuff.Mode.SRC_IN
                 )
             }.lparams {
-                centerInParent()
+                gravity = Gravity.CENTER
             }
 
         }
