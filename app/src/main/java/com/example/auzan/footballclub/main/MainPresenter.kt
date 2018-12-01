@@ -12,6 +12,7 @@ import java.lang.NullPointerException
  * Created by auzan on 11/30/2018.
  * Github: @auzanassdq
  */
+
 class MainPresenter (
     private val view: MainView,
     private val apiRepository: ApiRepository,

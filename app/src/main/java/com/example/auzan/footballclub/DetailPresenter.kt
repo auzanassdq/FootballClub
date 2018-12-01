@@ -2,7 +2,6 @@ package com.example.auzan.footballclub
 
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.api.TheSportDBApi
-import com.example.auzan.footballclub.model.EventResponse
 import com.example.auzan.footballclub.model.TeamResponse
 import com.google.gson.Gson
 import org.jetbrains.anko.doAsync

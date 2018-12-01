@@ -4,20 +4,14 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.EventLog
-import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
-import com.example.auzan.footballclub.api.TheSportDBApi
 import com.example.auzan.footballclub.model.EventItem
-import com.example.auzan.footballclub.R.id.*
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.model.Team
 import com.example.auzan.footballclub.util.changeFormatDate
@@ -26,16 +20,13 @@ import com.example.auzan.footballclub.util.strToDate
 import com.example.auzan.footballclub.util.visible
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.constraint.layout.constraintLayout
-import java.util.*
 
 /**
  * Created by auzan on 11/30/2018.
  * Github: @auzanassdq
  */
+
 class DetailActivity: AppCompatActivity(), DetailView {
 
     private lateinit var presenter: DetailPresenter
@@ -113,7 +104,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.homeTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                                textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                                 textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
                             }
@@ -156,7 +147,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.awayTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                                textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                                 textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
                             }
@@ -180,7 +171,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Goals"
                         }
 
@@ -201,7 +192,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Shots"
                         }
 
@@ -237,7 +228,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Goal Keeper"
                         }
 
@@ -258,7 +249,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Defense"
                         }
 
@@ -279,7 +270,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Midfield"
                         }
 
@@ -300,7 +291,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Forward"
                         }
 
@@ -321,7 +312,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
                             text = "Substitutes"
                         }
 
@@ -337,7 +328,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
             progressView = progressBar {
                 indeterminateDrawable.setColorFilter(
-                    ContextCompat.getColor(ctx, R.color.colorPrimary),
+                    ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary),
                     PorterDuff.Mode.SRC_IN
                 )
             }.lparams {
@@ -347,103 +338,5 @@ class DetailActivity: AppCompatActivity(), DetailView {
         }
     }
 }
-
-// Backup
-//linearLayout {
-//    orientation = LinearLayout.VERTICAL
-//    padding = dip(16)
-//
-//    // Date
-//    textView {
-//        textColor = ContextCompat.getColor(context, R.color.colorPrimary)
-//        gravity = Gravity.CENTER
-//        text = changeFormatDate(date)
-//    }
-//
-//    linearLayout {
-//        gravity = Gravity.CENTER_VERTICAL
-//
-//        // Home
-//        linearLayout {
-//            orientation = LinearLayout.VERTICAL
-//
-//            imgHomeBadge = imageView {
-//                event.teamBadge?.let {
-//                    Picasso.get()
-//                        .load(it)
-//                        .fit()
-//                        .into(this)
-//                }
-//            }.lparams {
-//                width = dip(100)
-//                height = dip(100)
-//                gravity = Gravity.CENTER
-//            }
-//
-//            textView {
-//                id = R.id.tv_home_team
-//                gravity = Gravity.CENTER
-//                textSize = 18f
-//                text = event.homeTeam
-//                textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
-//            }
-//        }.lparams(matchParent, wrapContent, 1f)
-//
-//        // Score
-//        linearLayout {
-//            gravity = Gravity.CENTER_VERTICAL
-//
-//            textView {
-//                id = R.id.tv_home_score
-//                padding = dip(8)
-//                textSize = 20f
-//                setTypeface(null, Typeface.BOLD)
-//                text = event.homeScore
-//            }
-//
-//            textView {
-//                text = "vs"
-//            }
-//
-//            textView {
-//                id = R.id.tv_away_score
-//                padding = dip(8)
-//                textSize = 20f
-//                setTypeface(null, Typeface.BOLD)
-//                text = event.awayScore
-//            }
-//        }
-//
-//        // Away
-//        linearLayout {
-//            orientation = LinearLayout.VERTICAL
-//
-//            imgAwayBadge = imageView {
-//                event.teamBadge?.let {
-//                    Picasso.get()
-//                        .load(it)
-//                        .fit()
-//                        .into(this)
-//                }
-//            }.lparams {
-//                width = dip(100)
-//                height = dip(100)
-//                gravity = Gravity.CENTER
-//            }
-//
-//            textView {
-//                id = R.id.tv_away_team
-//                gravity = Gravity.CENTER
-//                textSize = 18f
-//                text = event.awayTeam
-//                textColor = ContextCompat.getColor(ctx, R.color.colorPrimary)
-//            }
-//        }.lparams(matchParent, wrapContent, 1f)
-//
-//    }.lparams(matchParent, matchParent) {
-//        setMargins(dip(16), dip(8), dip(16), dip(8))
-//    }
-//
-//}
 
 

@@ -1,21 +1,15 @@
 package com.example.auzan.footballclub.main
 
-import android.R
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.EventLog
-import android.view.View
 import android.widget.*
 import com.example.auzan.footballclub.DetailActivity
-import com.example.auzan.footballclub.R.array.league
 import com.example.auzan.footballclub.R.color.colorAccent
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.model.EventItem
-import com.example.auzan.footballclub.model.Team
-import com.example.auzan.footballclub.util.invisile
 import com.example.auzan.footballclub.util.visible
 import com.google.gson.Gson
 import org.jetbrains.anko.*
@@ -27,6 +21,7 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
  * Created by auzan on 11/30/2018.
  * Github: @auzanassdq
  */
+
 class MainActivity : AppCompatActivity(), MainView {
 
     private var teams: MutableList<EventItem> = mutableListOf()
@@ -39,6 +34,25 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        layoutMainActivity()
+
+        adapter = EventAdapter(teams)  {
+            items: EventItem -> startActivity<DetailActivity>("Event" to items)
+        }
+
+        listTeam.adapter = adapter
+
+        val request = ApiRepository()
+        val gson = Gson()
+        presenter = MainPresenter(this, request, gson)
+        presenter.getEventList()
+
+        swipeRefresh.onRefresh {
+            presenter.getEventList()
+        }
+    }
+
+    fun layoutMainActivity(){
         linearLayout{
             lparams(width = matchParent, height = wrapContent)
             orientation = LinearLayout.VERTICAL
@@ -62,23 +76,6 @@ class MainActivity : AppCompatActivity(), MainView {
 
                 }
             }
-        }
-
-        adapter = EventAdapter(teams)  {
-//            this.startActivity<DetailActivity>("Event" to it)
-            items: EventItem -> startActivity<DetailActivity>("Event" to items)
-        }
-
-        listTeam.adapter = adapter
-
-        val request = ApiRepository()
-        val gson = Gson()
-        presenter = MainPresenter(this, request, gson)
-        presenter.getEventList()
-
-
-        swipeRefresh.onRefresh {
-            presenter.getEventList()
         }
     }
 

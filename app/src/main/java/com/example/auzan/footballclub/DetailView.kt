@@ -1,6 +1,5 @@
 package com.example.auzan.footballclub
 
-import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.model.Team
 
 /**
