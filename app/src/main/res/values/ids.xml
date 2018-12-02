@@ -10,4 +10,5 @@
     <item name="tv_event_date" type="id" />
     <item name="ly_score" type="id" />
     <item name="img_away_badge" type="id" />
+    <item name="btn_nv" type="id" />
 </resources>

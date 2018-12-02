@@ -2,6 +2,8 @@
     <string name="app_name">FootballClub</string>
     <string name="strip">-</string>
     <string name="vs">vs</string>
+    <string name="home">home</string>
+    <string name="away">away</string>
 
     <array name="league">
         <item>English Premier League</item>

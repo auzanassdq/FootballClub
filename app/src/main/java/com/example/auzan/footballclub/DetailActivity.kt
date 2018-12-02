@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,7 +16,7 @@ import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.model.Team
 import com.example.auzan.footballclub.util.changeFormatDate
-import com.example.auzan.footballclub.util.invisile
+import com.example.auzan.footballclub.util.invisible
 import com.example.auzan.footballclub.util.strToDate
 import com.example.auzan.footballclub.util.visible
 import com.google.gson.Gson
@@ -42,17 +43,22 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
         var event = intent.getParcelableExtra<EventItem>("Event")
 
+//        var TES = "TES"
+//        Log.e(TES, "ada ini : " + event.homeScore)
+//        Log.e(TES, "ada ini : " + event.awayScore)
+//        Log.e(TES, "ada ini : " + event.awayLineupForward)
+
         layoutDetailActivity(event)
         getTeam(event)
     }
 
     override fun showLoading() {
         progressView.visible()
-        dataview.invisile()
+        dataview.invisible()
     }
 
     override fun hideLoading() {
-        progressView.invisile()
+        progressView.invisible()
         dataview.visible()
     }
 
@@ -70,15 +76,15 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
     fun layoutDetailActivity(event: EventItem){
         val date = strToDate(event.eventDate)
-        linearLayout {
+        relativeLayout {
             lparams(matchParent, wrapContent)
-            orientation = LinearLayout.VERTICAL
-            padding = dip(16)
+
             dataview = scrollView {
 
                 linearLayout {
                     orientation = LinearLayout.VERTICAL
                     backgroundColor = Color.WHITE
+                    padding = dip(16)
 
                     // Date
                     textView {
@@ -332,7 +338,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                     PorterDuff.Mode.SRC_IN
                 )
             }.lparams {
-                gravity = Gravity.CENTER
+                centerInParent()
             }
 
         }

@@ -22,8 +22,8 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Github: @auzanassdq
  */
 
-class EventAdapter (private val eventItems: List<EventItem>,
-                    private val listener: (EventItem) -> Unit)
+class MainAdapter (private val eventItems: List<EventItem>,
+                   private val listener: (EventItem) -> Unit)
     : RecyclerView.Adapter<EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         return EventViewHolder (
@@ -69,16 +69,18 @@ class EventUI : AnkoComponent<ViewGroup> {
                         linearLayout {
                             gravity = Gravity.CENTER_VERTICAL
 
+                            // Home Team
                             textView {
                                 id = tv_home_team
                                 gravity = Gravity.CENTER
                                 textSize = 18f
-                                text = "home"
+                                text = context.getString(R.string.home)
                             }.lparams(matchParent, wrapContent, 1f)
 
                             linearLayout {
                                 gravity = Gravity.CENTER_VERTICAL
 
+                                // Home Score
                                 textView {
                                     id = tv_home_score
                                     padding = dip(8)
@@ -88,9 +90,10 @@ class EventUI : AnkoComponent<ViewGroup> {
                                 }
 
                                 textView {
-                                    text = "vs"
+                                    text = context.getString(R.string.vs)
                                 }
 
+                                // Away Score
                                 textView {
                                     id = tv_away_score
                                     padding = dip(8)
@@ -100,11 +103,12 @@ class EventUI : AnkoComponent<ViewGroup> {
                                 }
                             }
 
+                            // Away Team
                             textView {
                                 id = tv_away_team
                                 gravity = Gravity.CENTER
                                 textSize = 18f
-                                text = "away"
+                                text = context.getString(R.string.away)
                             }.lparams(matchParent, wrapContent, 1f)
                         }
                     }.lparams(matchParent, matchParent) {

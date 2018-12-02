@@ -14,7 +14,7 @@ fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.invisile() {
+fun View.invisible() {
     visibility = View.INVISIBLE
 }
 
