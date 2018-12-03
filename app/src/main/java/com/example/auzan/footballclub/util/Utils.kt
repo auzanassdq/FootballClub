@@ -21,9 +21,8 @@ fun View.invisible() {
 @SuppressLint("SimpleDateFormat")
 fun strToDate(strDate: String?, pattern: String = "yyyy-MM-dd"): Date {
     val format = SimpleDateFormat(pattern)
-    val date = format.parse(strDate)
 
-    return date
+    return format.parse(strDate)
 }
 
 @SuppressLint("SimpleDateFormat")

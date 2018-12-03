@@ -1,12 +1,12 @@
 package com.example.auzan.footballclub
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -41,7 +41,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var event = intent.getParcelableExtra<EventItem>("Event")
+        val event = intent.getParcelableExtra<EventItem>("Event")
 
 //        var TES = "TES"
 //        Log.e(TES, "ada ini : " + event.homeScore)
@@ -67,14 +67,15 @@ class DetailActivity: AppCompatActivity(), DetailView {
         Picasso.get().load(awayTeam[0].teamBadge).into(imgAwayBadge)
     }
 
-    fun getTeam(event: EventItem){
+    private fun getTeam(event: EventItem){
         val request = ApiRepository()
         val gson = Gson()
         presenter = DetailPresenter(this, request, gson)
         presenter.getEventDetails(event.homeTeamId!!, event.awayTeamId!!)
     }
 
-    fun layoutDetailActivity(event: EventItem){
+    @SuppressLint("RtlHardcoded")
+    private fun layoutDetailActivity(event: EventItem){
         val date = strToDate(event.eventDate)
         relativeLayout {
             lparams(matchParent, wrapContent)
@@ -129,7 +130,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView{
                                 padding = dip(16)
                                 textSize = 24f
-                                text = "VS"
+                                text = context.getString(R.string.VS)
                             }
 
                             textView {
@@ -178,7 +179,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Goals"
+                            text = context.getString(R.string.goals)
                         }
 
                         textView {
@@ -199,7 +200,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Shots"
+                            text = context.getString(R.string.shots)
                         }
 
                         textView {
@@ -220,7 +221,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         gravity = Gravity.CENTER
                         textSize = 18f
                         setTypeface(null, Typeface.BOLD)
-                        text = "Lineups"
+                        text = context.getString(R.string.Lineups)
                     }
 
                     // goal keeper
@@ -235,7 +236,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Goal Keeper"
+                            text = context.getString(R.string.goal_keeper)
+
                         }
 
                         textView {
@@ -256,7 +258,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Defense"
+                            text = context.getString(R.string.defense)
                         }
 
                         textView {
@@ -277,7 +279,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Midfield"
+                            text = context.getString(R.string.midfield)
                         }
 
                         textView {
@@ -298,7 +300,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Forward"
+                            text = context.getString(R.string.forward)
                         }
 
                         textView {
@@ -319,7 +321,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
                             textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
-                            text = "Substitutes"
+                            text = context.getString(R.string.substitutes)
                         }
 
                         textView {
@@ -329,7 +331,6 @@ class DetailActivity: AppCompatActivity(), DetailView {
                     }
 
                 }
-
             }
 
             progressView = progressBar {

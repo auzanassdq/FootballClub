@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), MainView {
         setData()
     }
 
-    fun setData(){
+    private fun setData(){
         val request = ApiRepository()
         val gson = Gson()
         presenter = MainPresenter(this, request, gson)
@@ -54,11 +54,11 @@ class MainActivity : AppCompatActivity(), MainView {
         listTeam.adapter = adapter
     }
 
-    fun itemClicked(event: EventItem) {
+    private fun itemClicked(event: EventItem) {
         startActivity<DetailActivity>("Event" to event)
     }
 
-    fun layoutMainActivity(){
+    private fun layoutMainActivity(){
         linearLayout{
             lparams(matchParent, wrapContent)
             orientation = LinearLayout.VERTICAL
