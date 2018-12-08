@@ -1,7 +1,6 @@
-package com.example.auzan.footballclub
+package com.example.auzan.footballclub.detail
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -16,13 +15,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import com.example.auzan.footballclub.R
 import com.example.auzan.footballclub.R.drawable.ic_favorite
 import com.example.auzan.footballclub.R.drawable.ic_favorite_border
-import com.example.auzan.footballclub.R.id.home
 import com.example.auzan.footballclub.R.id.mn_favorites
 import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.api.ApiRepository
-import com.example.auzan.footballclub.db.Favorite
 import com.example.auzan.footballclub.db.database
 import com.example.auzan.footballclub.model.Team
 import com.example.auzan.footballclub.util.changeFormatDate
@@ -36,7 +34,6 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.design.snackbar
 
 /**
  * Created by auzan on 11/30/2018.
@@ -56,14 +53,12 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
     private var menuFavorites: Menu? = null
     private var isFavorite: Boolean = false
-    private lateinit var id: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        val intent = intent
         eventItem = intent.getParcelableExtra("Event")
-        id = eventItem.eventId.toString()
+
         supportActionBar?.title = "Team Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -81,7 +76,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
-            home -> {
+            android.R.id.home -> {
                 finish()
                 true
             }
@@ -105,38 +100,38 @@ class DetailActivity: AppCompatActivity(), DetailView {
             menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_favorite_border)
     }
 
-    fun addFavorites() {
+    private fun addFavorites() {
         try {
             database.use {
-                insert(Favorite.TABLE_FAVORITES,
-                    Favorite.ID_EVENT to eventItem.eventId,
-                    Favorite.DATE to eventItem.eventDate,
+                insert(EventItem.TABLE_FAVORITES,
+                    EventItem.ID_EVENT to eventItem.eventId,
+                    EventItem.DATE to eventItem.eventDate,
 
                     // home team
-                    Favorite.HOME_ID to eventItem.homeTeamId,
-                    Favorite.HOME_TEAM to eventItem.homeTeam,
-                    Favorite.HOME_SCORE to eventItem.homeScore,
-                    Favorite.HOME_FORMATION to eventItem.homeFormation,
-                    Favorite.HOME_GOAL_DETAILS to eventItem.homeGoalDetails,
-                    Favorite.HOME_SHOTS to eventItem.homeShots,
-                    Favorite.HOME_LINEUP_GOALKEEPER to eventItem.homeLineupGoalKeeper,
-                    Favorite.HOME_LINEUP_DEFENSE to eventItem.homeLineupDefense,
-                    Favorite.HOME_LINEUP_MIDFIELD to eventItem.homeLineupMidfield,
-                    Favorite.HOME_LINEUP_FORWARD to eventItem.homeLineupForward,
-                    Favorite.HOME_LINEUP_SUBSTITUTES to eventItem.homeLineupSubstitutes,
+                    EventItem.HOME_ID to eventItem.homeTeamId,
+                    EventItem.HOME_TEAM to eventItem.homeTeam,
+                    EventItem.HOME_SCORE to eventItem.homeScore,
+                    EventItem.HOME_FORMATION to eventItem.homeFormation,
+                    EventItem.HOME_GOAL_DETAILS to eventItem.homeGoalDetails,
+                    EventItem.HOME_SHOTS to eventItem.homeShots,
+                    EventItem.HOME_LINEUP_GOALKEEPER to eventItem.homeLineupGoalKeeper,
+                    EventItem.HOME_LINEUP_DEFENSE to eventItem.homeLineupDefense,
+                    EventItem.HOME_LINEUP_MIDFIELD to eventItem.homeLineupMidfield,
+                    EventItem.HOME_LINEUP_FORWARD to eventItem.homeLineupForward,
+                    EventItem.HOME_LINEUP_SUBSTITUTES to eventItem.homeLineupSubstitutes,
 
                     // away team
-                    Favorite.AWAY_ID to eventItem.awayTeamId,
-                    Favorite.AWAY_TEAM to eventItem.awayTeam,
-                    Favorite.AWAY_SCORE to eventItem.awayScore,
-                    Favorite.AWAY_FORMATION to eventItem.awayFormation,
-                    Favorite.AWAY_GOAL_DETAILS to eventItem.awayGoalsDetails,
-                    Favorite.AWAY_SHOTS to eventItem.awayShots,
-                    Favorite.AWAY_LINEUP_GOALKEEPER to eventItem.awayLineupGoalKeeper,
-                    Favorite.AWAY_LINEUP_DEFENSE to eventItem.awayLineupDefense,
-                    Favorite.AWAY_LINEUP_MIDFIELD to eventItem.awayLineupMidfield,
-                    Favorite.AWAY_LINEUP_FORWARD to eventItem.awayLineupForward,
-                    Favorite.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes)
+                    EventItem.AWAY_ID to eventItem.awayTeamId,
+                    EventItem.AWAY_TEAM to eventItem.awayTeam,
+                    EventItem.AWAY_SCORE to eventItem.awayScore,
+                    EventItem.AWAY_FORMATION to eventItem.awayFormation,
+                    EventItem.AWAY_GOAL_DETAILS to eventItem.awayGoalsDetails,
+                    EventItem.AWAY_SHOTS to eventItem.awayShots,
+                    EventItem.AWAY_LINEUP_GOALKEEPER to eventItem.awayLineupGoalKeeper,
+                    EventItem.AWAY_LINEUP_DEFENSE to eventItem.awayLineupDefense,
+                    EventItem.AWAY_LINEUP_MIDFIELD to eventItem.awayLineupMidfield,
+                    EventItem.AWAY_LINEUP_FORWARD to eventItem.awayLineupForward,
+                    EventItem.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes)
             }
 //            snackbar("Add to favorite").show()
             toast("Add to favorite").show()
@@ -145,11 +140,11 @@ class DetailActivity: AppCompatActivity(), DetailView {
         }
     }
 
-    fun removeFavorites() {
+    private fun removeFavorites() {
         try {
             database.use {
-                delete(Favorite.TABLE_FAVORITES,
-                    Favorite.ID_EVENT + " = {id}",
+                delete(EventItem.TABLE_FAVORITES,
+                    EventItem.ID_EVENT + " = {id}",
                     "id" to eventItem.eventId.toString())
             }
             toast("Delete from favorite")
@@ -158,14 +153,14 @@ class DetailActivity: AppCompatActivity(), DetailView {
         }
     }
 
-    fun isFavorite(): Boolean {
+    private fun isFavorite(): Boolean {
         var bFavorite = false
 
         database.use {
-            val favorites = select(Favorite.TABLE_FAVORITES)
-                .whereArgs(Favorite.ID_EVENT + " = {id}",
+            val favorites = select(EventItem.TABLE_FAVORITES)
+                .whereArgs(EventItem.ID_EVENT + " = {id}",
                     "id" to eventItem.eventId.toString())
-                .parseList(classParser<Favorite>())
+                .parseList(classParser<EventItem>())
 
             bFavorite = !favorites.isEmpty()
         }
@@ -195,22 +190,6 @@ class DetailActivity: AppCompatActivity(), DetailView {
         presenter.getEventDetails(event.homeTeamId!!, event.awayTeamId!!)
 
         isFavorite = isFavorite()
-    }
-
-    private fun favoriteState(): Boolean{
-        var fav = false
-        database.use {
-            val result = select(Favorite.TABLE_FAVORITES)
-                .whereArgs(Favorite.ID_EVENT + " = {id}",
-                    "id" to eventItem.eventId.toString())
-//                .parseList(classParser<Favorite>())
-            val favorite = result.parseList(classParser<Favorite>())
-//            if (!favorite.isEmpty()) isFavorite = true
-
-            fav = !favorite.isEmpty()
-        }
-
-        return fav
     }
 
     @SuppressLint("RtlHardcoded")
@@ -250,7 +229,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.homeTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                                textColor = ContextCompat.getColor(this@DetailActivity,
+                                    R.color.colorPrimary
+                                )
                                 textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
                             }
@@ -293,7 +274,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.awayTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                                textColor = ContextCompat.getColor(this@DetailActivity,
+                                    R.color.colorPrimary
+                                )
                                 textSize = 18f
                                 setTypeface(null, Typeface.BOLD)
                             }
@@ -317,7 +300,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.goals)
                         }
 
@@ -338,7 +323,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.shots)
                         }
 
@@ -374,7 +361,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.goal_keeper)
 
                         }
@@ -396,7 +385,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.defense)
                         }
 
@@ -417,7 +408,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.midfield)
                         }
 
@@ -438,7 +431,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.forward)
                         }
 
@@ -459,7 +454,9 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary)
+                            textColor = ContextCompat.getColor(this@DetailActivity,
+                                R.color.colorPrimary
+                            )
                             text = context.getString(R.string.substitutes)
                         }
 

@@ -10,52 +10,34 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-class EventItem (
+data class EventItem (
+
+    val id: Long?,
 
     @SerializedName("idEvent")
     var eventId: String? = null ,
 
-    @SerializedName("strEvent")
-    var eventName: String? = null ,
-
     @SerializedName("dateEvent")
     var eventDate: String? = null ,
 
+    // Home
     @SerializedName("idHomeTeam")
     var homeTeamId: String? = null ,
-
-    @SerializedName("idAwayTeam")
-    var awayTeamId: String? = null ,
 
     @SerializedName("strHomeTeam")
     var homeTeam: String? = null ,
 
-    @SerializedName("strAwayTeam")
-    var awayTeam: String? = null ,
-
     @SerializedName("intHomeScore")
     var homeScore: String? = null ,
-
-    @SerializedName("intAwayScore")
-    var awayScore: String? = null ,
-
-    @SerializedName("intHomeShots")
-    var homeShots: String? = null ,
-
-    @SerializedName("intAwayShots")
-    var awayShots: String? = null ,
 
     @SerializedName("strHomeFormation")
     var homeFormation: String? = null ,
 
-    @SerializedName("strAwayFormation")
-    var awayFormation: String? = null ,
-
     @SerializedName("strHomeGoalDetails")
     var homeGoalDetails: String? = null ,
 
-    @SerializedName("strAwayGoalDetails")
-    var awayGoalsDetails: String? = null ,
+    @SerializedName("intHomeShots")
+    var homeShots: String? = null ,
 
     @SerializedName("strHomeLineupGoalkeeper")
     var homeLineupGoalKeeper: String? = null ,
@@ -72,6 +54,25 @@ class EventItem (
     @SerializedName("strHomeLineupSubstitutes")
     var homeLineupSubstitutes: String? = null ,
 
+    // Away
+    @SerializedName("idAwayTeam")
+    var awayTeamId: String? = null ,
+
+    @SerializedName("strAwayTeam")
+    var awayTeam: String? = null ,
+
+    @SerializedName("intAwayScore")
+    var awayScore: String? = null ,
+
+    @SerializedName("strAwayFormation")
+    var awayFormation: String? = null ,
+
+    @SerializedName("strAwayGoalDetails")
+    var awayGoalsDetails: String? = null ,
+
+    @SerializedName("intAwayShots")
+    var awayShots: String? = null ,
+
     @SerializedName("strAwayLineupGoalkeeper")
     var awayLineupGoalKeeper: String? = null ,
 
@@ -85,16 +86,7 @@ class EventItem (
     var awayLineupForward: String? = null ,
 
     @SerializedName("strAwayLineupSubstitutes")
-    var awayLineupSubstitutes: String? = null ,
-
-    @SerializedName("strTeamBadge")
-    var teamBadge: String? = null,
-
-    @SerializedName("idTeam")
-    var teamId: String? = null,
-
-    @SerializedName("strTeam")
-    var teamName: String? = null
+    var awayLineupSubstitutes: String? = null
 
 ) : Parcelable {
 

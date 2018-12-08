@@ -1,4 +1,4 @@
-package com.example.auzan.footballclub
+package com.example.auzan.footballclub.detail
 
 import com.example.auzan.footballclub.model.Team
 

@@ -7,13 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.*
-import com.example.auzan.footballclub.DetailActivity
+import com.example.auzan.footballclub.detail.DetailActivity
 import com.example.auzan.footballclub.R
 import com.example.auzan.footballclub.R.id.btn_nv
 import com.example.auzan.footballclub.R.color.colorAccent
 import com.example.auzan.footballclub.api.ApiRepository
-import com.example.auzan.footballclub.db.Favorite
-import com.example.auzan.footballclub.db.FavoriteAdapter
 import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.util.invisible
 import com.example.auzan.footballclub.util.visible
@@ -32,10 +30,8 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 class MainActivity : AppCompatActivity(), MainView {
 
     private var match: MutableList<EventItem> = mutableListOf()
-    private var favMatch: MutableList<Favorite> = mutableListOf()
     private lateinit var presenter: MainPresenter
     private lateinit var adapter: MainAdapter
-    private lateinit var favAdapter: FavoriteAdapter
     private lateinit var listTeam: RecyclerView
     private lateinit var swipeRefresh: SwipeRefreshLayout
 
@@ -53,11 +49,6 @@ class MainActivity : AppCompatActivity(), MainView {
         adapter = MainAdapter(match)  {
                 items: EventItem -> itemClicked(items)
         }
-
-        favAdapter = FavoriteAdapter(favMatch) {
-
-        }
-
 
         presenter.getEventPastList()
         listTeam.adapter = adapter
@@ -82,7 +73,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
                     listTeam = recyclerView{
                         layoutManager = LinearLayoutManager(context)
-                    }.lparams(matchParent, wrapContent) {
+                    }.lparams(matchParent, matchParent) {
                         topOf(btn_nv)
                     }
 
@@ -113,7 +104,10 @@ class MainActivity : AppCompatActivity(), MainView {
                             add("Favorite")
                                 .setIcon(R.drawable.ic_favorite)
                                 .setOnMenuItemClickListener {
-                                    presenter.getFavorite(ctx)
+                                    presenter.getFavorite(this@MainActivity)
+                                    swipeRefresh.onRefresh {
+                                        presenter.getFavorite(this@MainActivity)
+                                    }
                                     false
                                 }
                         }
@@ -124,15 +118,6 @@ class MainActivity : AppCompatActivity(), MainView {
             }
         }
     }
-
-//    private fun loadFavoritesFragment(savedInstanceState: Bundle?) {
-//        if (savedInstanceState == null) {
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.main_container, FavoriteTeamsFragment(), FavoriteTeamsFragment::class.java.simpleName)
-//                .commit()
-//        }
-//    }
 
     override fun showLoading() {
         listTeam.invisible()
@@ -151,13 +136,6 @@ class MainActivity : AppCompatActivity(), MainView {
         match.clear()
         match.addAll(data)
         adapter.notifyDataSetChanged()
-    }
-
-    override fun showFavoritetList(data: List<Favorite>) {
-        swipeRefresh.isRefreshing = false
-        favMatch.clear()
-        favMatch.addAll(data)
-        favAdapter.notifyDataSetChanged()
     }
 
 }
