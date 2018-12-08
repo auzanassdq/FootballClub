@@ -1,6 +1,8 @@
 package com.example.auzan.footballclub
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
@@ -8,12 +10,20 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import com.example.auzan.footballclub.R.drawable.ic_favorite
+import com.example.auzan.footballclub.R.drawable.ic_favorite_border
+import com.example.auzan.footballclub.R.id.home
+import com.example.auzan.footballclub.R.id.mn_favorites
 import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.api.ApiRepository
+import com.example.auzan.footballclub.db.Favorite
+import com.example.auzan.footballclub.db.database
 import com.example.auzan.footballclub.model.Team
 import com.example.auzan.footballclub.util.changeFormatDate
 import com.example.auzan.footballclub.util.invisible
@@ -22,6 +32,11 @@ import com.example.auzan.footballclub.util.visible
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
+import org.jetbrains.anko.design.snackbar
 
 /**
  * Created by auzan on 11/30/2018.
@@ -30,6 +45,7 @@ import org.jetbrains.anko.*
 
 class DetailActivity: AppCompatActivity(), DetailView {
 
+    private lateinit var eventItem: EventItem
     private lateinit var presenter: DetailPresenter
 
     private lateinit var progressView: ProgressBar
@@ -38,18 +54,123 @@ class DetailActivity: AppCompatActivity(), DetailView {
     private lateinit var imgHomeBadge: ImageView
     private lateinit var imgAwayBadge: ImageView
 
+    private var menuFavorites: Menu? = null
+    private var isFavorite: Boolean = false
+    private lateinit var id: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val event = intent.getParcelableExtra<EventItem>("Event")
+//        val intent = intent
+        eventItem = intent.getParcelableExtra("Event")
+        id = eventItem.eventId.toString()
+        supportActionBar?.title = "Team Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        var TES = "TES"
-//        Log.e(TES, "ada ini : " + event.homeScore)
-//        Log.e(TES, "ada ini : " + event.awayScore)
-//        Log.e(TES, "ada ini : " + event.awayLineupForward)
+        layoutDetailActivity(eventItem)
+        getTeam(eventItem)
+    }
 
-        layoutDetailActivity(event)
-        getTeam(event)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_item, menu)
+        menuFavorites = menu
+        setFavorite()
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            home -> {
+                finish()
+                true
+            }
+            mn_favorites -> {
+                if (isFavorite) removeFavorites() else addFavorites()
+
+                isFavorite = !isFavorite
+                setFavorite()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setFavorite() {
+        if (isFavorite)
+            menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_favorite)
+        else
+            menuFavorites?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_favorite_border)
+    }
+
+    fun addFavorites() {
+        try {
+            database.use {
+                insert(Favorite.TABLE_FAVORITES,
+                    Favorite.ID_EVENT to eventItem.eventId,
+                    Favorite.DATE to eventItem.eventDate,
+
+                    // home team
+                    Favorite.HOME_ID to eventItem.homeTeamId,
+                    Favorite.HOME_TEAM to eventItem.homeTeam,
+                    Favorite.HOME_SCORE to eventItem.homeScore,
+                    Favorite.HOME_FORMATION to eventItem.homeFormation,
+                    Favorite.HOME_GOAL_DETAILS to eventItem.homeGoalDetails,
+                    Favorite.HOME_SHOTS to eventItem.homeShots,
+                    Favorite.HOME_LINEUP_GOALKEEPER to eventItem.homeLineupGoalKeeper,
+                    Favorite.HOME_LINEUP_DEFENSE to eventItem.homeLineupDefense,
+                    Favorite.HOME_LINEUP_MIDFIELD to eventItem.homeLineupMidfield,
+                    Favorite.HOME_LINEUP_FORWARD to eventItem.homeLineupForward,
+                    Favorite.HOME_LINEUP_SUBSTITUTES to eventItem.homeLineupSubstitutes,
+
+                    // away team
+                    Favorite.AWAY_ID to eventItem.awayTeamId,
+                    Favorite.AWAY_TEAM to eventItem.awayTeam,
+                    Favorite.AWAY_SCORE to eventItem.awayScore,
+                    Favorite.AWAY_FORMATION to eventItem.awayFormation,
+                    Favorite.AWAY_GOAL_DETAILS to eventItem.awayGoalsDetails,
+                    Favorite.AWAY_SHOTS to eventItem.awayShots,
+                    Favorite.AWAY_LINEUP_GOALKEEPER to eventItem.awayLineupGoalKeeper,
+                    Favorite.AWAY_LINEUP_DEFENSE to eventItem.awayLineupDefense,
+                    Favorite.AWAY_LINEUP_MIDFIELD to eventItem.awayLineupMidfield,
+                    Favorite.AWAY_LINEUP_FORWARD to eventItem.awayLineupForward,
+                    Favorite.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes)
+            }
+//            snackbar("Add to favorite").show()
+            toast("Add to favorite").show()
+        } catch (e: SQLiteConstraintException) {
+            toast("Error: ${e.message}").show()
+        }
+    }
+
+    fun removeFavorites() {
+        try {
+            database.use {
+                delete(Favorite.TABLE_FAVORITES,
+                    Favorite.ID_EVENT + " = {id}",
+                    "id" to eventItem.eventId.toString())
+            }
+            toast("Delete from favorite")
+        } catch (e: SQLiteConstraintException) {
+            toast("Error: ${e.message}")
+        }
+    }
+
+    fun isFavorite(): Boolean {
+        var bFavorite = false
+
+        database.use {
+            val favorites = select(Favorite.TABLE_FAVORITES)
+                .whereArgs(Favorite.ID_EVENT + " = {id}",
+                    "id" to eventItem.eventId.toString())
+                .parseList(classParser<Favorite>())
+
+            bFavorite = !favorites.isEmpty()
+        }
+
+        return bFavorite
     }
 
     override fun showLoading() {
@@ -72,6 +193,24 @@ class DetailActivity: AppCompatActivity(), DetailView {
         val gson = Gson()
         presenter = DetailPresenter(this, request, gson)
         presenter.getEventDetails(event.homeTeamId!!, event.awayTeamId!!)
+
+        isFavorite = isFavorite()
+    }
+
+    private fun favoriteState(): Boolean{
+        var fav = false
+        database.use {
+            val result = select(Favorite.TABLE_FAVORITES)
+                .whereArgs(Favorite.ID_EVENT + " = {id}",
+                    "id" to eventItem.eventId.toString())
+//                .parseList(classParser<Favorite>())
+            val favorite = result.parseList(classParser<Favorite>())
+//            if (!favorite.isEmpty()) isFavorite = true
+
+            fav = !favorite.isEmpty()
+        }
+
+        return fav
     }
 
     @SuppressLint("RtlHardcoded")
@@ -345,5 +484,3 @@ class DetailActivity: AppCompatActivity(), DetailView {
         }
     }
 }
-
-

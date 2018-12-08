@@ -1,9 +1,14 @@
 package com.example.auzan.footballclub.main
 
+import android.content.Context
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.api.TheSportDBApi
+import com.example.auzan.footballclub.db.Favorite
+import com.example.auzan.footballclub.db.database
 import com.example.auzan.footballclub.model.EventResponse
 import com.google.gson.Gson
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -28,7 +33,7 @@ class MainPresenter (
 
             uiThread {
                 view.hideLoading()
-                view.showTeamList(data.events!!)
+                view.showEventList(data.events!!)
             }
         }
     }
@@ -43,9 +48,31 @@ class MainPresenter (
 
             uiThread {
                 view.hideLoading()
-                view.showTeamList(data.events!!)
+                view.showEventList(data.events!!)
             }
         }
+    }
+
+    fun getFavorite(context: Context){
+        view.showLoading()
+        val data: MutableList<Favorite> = mutableListOf()
+
+            context.database.use {
+                val favorite = select(Favorite.TABLE_FAVORITES)
+                    .parseList(classParser<Favorite>())
+
+                data.addAll(favorite)
+            }
+
+
+                view.hideLoading()
+                if (data.size > 0) {
+                    view.showFavoritetList(data)
+                } else {
+                    view.showEmptyData()
+                }
+
+
     }
 
 

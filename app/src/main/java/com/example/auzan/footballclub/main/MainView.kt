@@ -1,5 +1,6 @@
 package com.example.auzan.footballclub.main
 
+import com.example.auzan.footballclub.db.Favorite
 import com.example.auzan.footballclub.model.EventItem
 
 /**
@@ -10,5 +11,6 @@ interface MainView {
     fun showEmptyData()
     fun showLoading()
     fun hideLoading()
-    fun showTeamList(data: List<EventItem>)
+    fun showEventList(data: List<EventItem>)
+    fun showFavoritetList(data: List<Favorite>)
 }
