@@ -6,12 +6,12 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.*
-import com.example.auzan.footballclub.detail.DetailActivity
+import android.widget.LinearLayout
 import com.example.auzan.footballclub.R
-import com.example.auzan.footballclub.R.id.btn_nv
 import com.example.auzan.footballclub.R.color.colorAccent
+import com.example.auzan.footballclub.R.id.btn_nv
 import com.example.auzan.footballclub.api.ApiRepository
+import com.example.auzan.footballclub.detail.DetailActivity
 import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.util.invisible
 import com.example.auzan.footballclub.util.visible
@@ -42,12 +42,12 @@ class MainActivity : AppCompatActivity(), MainView {
         setData()
     }
 
-    private fun setData(){
+    private fun setData() {
         val request = ApiRepository()
         val gson = Gson()
         presenter = MainPresenter(this, request, gson)
-        adapter = MainAdapter(match)  {
-                items: EventItem -> itemClicked(items)
+        adapter = MainAdapter(match) { items: EventItem ->
+            itemClicked(items)
         }
 
         presenter.getEventPastList()
@@ -58,20 +58,22 @@ class MainActivity : AppCompatActivity(), MainView {
         startActivity<DetailActivity>("Event" to event)
     }
 
-    private fun layoutMainActivity(){
-        linearLayout{
+    private fun layoutMainActivity() {
+        linearLayout {
             lparams(matchParent, wrapContent)
             orientation = LinearLayout.VERTICAL
 
-            swipeRefresh = swipeRefreshLayout{
-                setColorSchemeResources(colorAccent,
+            swipeRefresh = swipeRefreshLayout {
+                setColorSchemeResources(
+                    colorAccent,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light)
+                    android.R.color.holo_red_light
+                )
 
-                relativeLayout{
+                relativeLayout {
 
-                    listTeam = recyclerView{
+                    listTeam = recyclerView {
                         layoutManager = LinearLayoutManager(context)
                     }.lparams(matchParent, matchParent) {
                         topOf(btn_nv)
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity(), MainView {
                         backgroundColor = Color.WHITE
 
                         menu.apply {
-                            add ("Prev Match")
+                            add("Prev Match")
                                 .setIcon(R.drawable.ic_watch)
                                 .setOnMenuItemClickListener {
                                     presenter.getEventPastList()

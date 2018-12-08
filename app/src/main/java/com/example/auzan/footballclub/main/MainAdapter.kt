@@ -22,11 +22,12 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Github: @auzanassdq
  */
 
-class MainAdapter (private val eventItems: List<EventItem>,
-                   private val listener: (EventItem) -> Unit)
-    : RecyclerView.Adapter<EventViewHolder>() {
+class MainAdapter(
+    private val eventItems: List<EventItem>,
+    private val listener: (EventItem) -> Unit
+) : RecyclerView.Adapter<EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        return EventViewHolder (
+        return EventViewHolder(
             EventUI().createView(
                 AnkoContext.create(parent.context, parent)
             )
@@ -43,8 +44,8 @@ class MainAdapter (private val eventItems: List<EventItem>,
 class EventUI : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View {
         return with(ui) {
-            cardView{
-                lparams(width = matchParent, height = wrapContent){
+            cardView {
+                lparams(width = matchParent, height = wrapContent) {
                     gravity = Gravity.CENTER
                     margin = dip(4)
                     radius = 4f

@@ -11,28 +11,33 @@ import org.jetbrains.anko.uiThread
  * Created by auzan on 12/1/2018.
  * Github: @auzanassdq
  */
-class DetailPresenter (private val view: DetailView,
-                       private val apiRepository: ApiRepository,
-                       private val gson: Gson){
 
-        fun getEventDetails(homeTeamId: String, awayTeamId: String){
-            view.showLoading()
-            doAsync {
+class DetailPresenter(
+    private val view: DetailView,
+    private val apiRepository: ApiRepository,
+    private val gson: Gson
+) {
 
-                val homeTeam = gson.fromJson(apiRepository
+    fun getEventDetails(homeTeamId: String, awayTeamId: String) {
+        view.showLoading()
+        doAsync {
+
+            val homeTeam = gson.fromJson(
+                apiRepository
                     .doRequest(TheSportDBApi.getTeams(homeTeamId)),
-                    TeamResponse::class.java
-                )
+                TeamResponse::class.java
+            )
 
-                val awayTeam = gson.fromJson(apiRepository
+            val awayTeam = gson.fromJson(
+                apiRepository
                     .doRequest(TheSportDBApi.getTeams(awayTeamId)),
-                    TeamResponse::class.java
-                )
+                TeamResponse::class.java
+            )
 
-                uiThread {
-                    view.hideLoading()
-                    view.showTeamDetails(homeTeam.teams!!, awayTeam.teams!!)
-                }
+            uiThread {
+                view.hideLoading()
+                view.showTeamDetails(homeTeam.teams, awayTeam.teams)
             }
         }
+    }
 }

@@ -10,7 +10,7 @@ import com.example.auzan.footballclub.BuildConfig
 
 object TheSportDBApi {
 
-    fun getEventPast() : String {
+    fun getEventPast(): String {
         return Uri.parse(BuildConfig.BASE_URL).buildUpon()
             .appendPath("api")
             .appendPath("v1")
@@ -22,7 +22,7 @@ object TheSportDBApi {
             .toString()
     }
 
-    fun getEventNext() : String {
+    fun getEventNext(): String {
         return Uri.parse(BuildConfig.BASE_URL).buildUpon()
             .appendPath("api")
             .appendPath("v1")
@@ -34,7 +34,7 @@ object TheSportDBApi {
             .toString()
     }
 
-    fun getTeams(id: String?) : String {
+    fun getTeams(id: String?): String {
         return Uri.parse(BuildConfig.BASE_URL).buildUpon()
             .appendPath("api")
             .appendPath("v1")

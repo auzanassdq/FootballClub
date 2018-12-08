@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="tv_date_match" type="id"/>
     <item name="tv_home_team" type="id"/>
     <item name="tv_home_score" type="id"/>
     <item name="tv_away_team" type="id"/>
     <item name="tv_away_score" type="id"/>
-    <item name="team_badge" type="id" />
-    <item name="team_name" type="id" />
     <item name="tv_event_date" type="id" />
-    <item name="ly_score" type="id" />
-    <item name="img_away_badge" type="id" />
     <item name="btn_nv" type="id" />
 </resources>

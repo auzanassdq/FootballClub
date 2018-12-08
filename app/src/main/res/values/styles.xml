@@ -8,16 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="txtscore">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">32sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="txtclub">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginTop">4dp</item>
-    </style>
-
 </resources>

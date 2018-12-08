@@ -10,80 +10,80 @@ import kotlinx.android.parcel.Parcelize
  */
 
 @Parcelize
-data class EventItem (
+data class EventItem(
 
     val id: Long?,
 
     @SerializedName("idEvent")
-    var eventId: String? = null ,
+    var eventId: String? = null,
 
     @SerializedName("dateEvent")
-    var eventDate: String? = null ,
+    var eventDate: String? = null,
 
     // Home
     @SerializedName("idHomeTeam")
-    var homeTeamId: String? = null ,
+    var homeTeamId: String? = null,
 
     @SerializedName("strHomeTeam")
-    var homeTeam: String? = null ,
+    var homeTeam: String? = null,
 
     @SerializedName("intHomeScore")
-    var homeScore: String? = null ,
+    var homeScore: String? = null,
 
     @SerializedName("strHomeFormation")
-    var homeFormation: String? = null ,
+    var homeFormation: String? = null,
 
     @SerializedName("strHomeGoalDetails")
-    var homeGoalDetails: String? = null ,
+    var homeGoalDetails: String? = null,
 
     @SerializedName("intHomeShots")
-    var homeShots: String? = null ,
+    var homeShots: String? = null,
 
     @SerializedName("strHomeLineupGoalkeeper")
-    var homeLineupGoalKeeper: String? = null ,
+    var homeLineupGoalKeeper: String? = null,
 
     @SerializedName("strHomeLineupDefense")
-    var homeLineupDefense: String? = null ,
+    var homeLineupDefense: String? = null,
 
     @SerializedName("strHomeLineupMidfield")
-    var homeLineupMidfield: String? = null ,
+    var homeLineupMidfield: String? = null,
 
     @SerializedName("strHomeLineupForward")
-    var homeLineupForward: String? = null ,
+    var homeLineupForward: String? = null,
 
     @SerializedName("strHomeLineupSubstitutes")
-    var homeLineupSubstitutes: String? = null ,
+    var homeLineupSubstitutes: String? = null,
 
     // Away
     @SerializedName("idAwayTeam")
-    var awayTeamId: String? = null ,
+    var awayTeamId: String? = null,
 
     @SerializedName("strAwayTeam")
-    var awayTeam: String? = null ,
+    var awayTeam: String? = null,
 
     @SerializedName("intAwayScore")
-    var awayScore: String? = null ,
+    var awayScore: String? = null,
 
     @SerializedName("strAwayFormation")
-    var awayFormation: String? = null ,
+    var awayFormation: String? = null,
 
     @SerializedName("strAwayGoalDetails")
-    var awayGoalsDetails: String? = null ,
+    var awayGoalsDetails: String? = null,
 
     @SerializedName("intAwayShots")
-    var awayShots: String? = null ,
+    var awayShots: String? = null,
 
     @SerializedName("strAwayLineupGoalkeeper")
-    var awayLineupGoalKeeper: String? = null ,
+    var awayLineupGoalKeeper: String? = null,
 
     @SerializedName("strAwayLineupDefense")
-    var awayLineupDefense: String? = null ,
+    var awayLineupDefense: String? = null,
 
     @SerializedName("strAwayLineupMidfield")
-    var awayLineupMidfield: String? = null ,
+    var awayLineupMidfield: String? = null,
 
     @SerializedName("strAwayLineupForward")
-    var awayLineupForward: String? = null ,
+    var awayLineupForward: String? = null,
 
     @SerializedName("strAwayLineupSubstitutes")
     var awayLineupSubstitutes: String? = null

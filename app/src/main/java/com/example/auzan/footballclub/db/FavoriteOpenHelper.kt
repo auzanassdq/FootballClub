@@ -10,12 +10,12 @@ import org.jetbrains.anko.db.*
  * Github: @auzanassdq
  */
 
-class FavoriteOpenHelper(ctx : Context) : ManagedSQLiteOpenHelper(ctx, "FavoriteEvent.db", null, 1) {
+class FavoriteOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "FavoriteEvent.db", null, 1) {
     companion object {
         private var instance: FavoriteOpenHelper? = null
 
         @Synchronized
-        fun getInstance (ctx: Context): FavoriteOpenHelper {
+        fun getInstance(ctx: Context): FavoriteOpenHelper {
             if (instance == null) {
                 instance = FavoriteOpenHelper(ctx.applicationContext)
             }

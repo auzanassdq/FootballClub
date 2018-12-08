@@ -1,6 +1,5 @@
 package com.example.auzan.footballclub.detail
 
-import android.annotation.SuppressLint
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -192,7 +191,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
         isFavorite = isFavorite()
     }
 
-    @SuppressLint("RtlHardcoded")
+
     private fun layoutDetailActivity(event: EventItem){
         val date = strToDate(event.eventDate)
         relativeLayout {
@@ -307,7 +306,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayGoalsDetails
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -330,7 +329,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayShots
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -369,7 +368,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayLineupGoalKeeper
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -392,7 +391,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayLineupDefense
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -415,7 +414,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayLineupMidfield
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -438,7 +437,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayLineupForward
                         }.lparams(matchParent, wrapContent, 1f)
                     }
@@ -461,7 +460,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         }
 
                         textView {
-                            gravity = Gravity.RIGHT
+                            gravity = Gravity.END
                             text = event.awayLineupSubstitutes
                         }.lparams(matchParent, wrapContent, 1f)
                     }

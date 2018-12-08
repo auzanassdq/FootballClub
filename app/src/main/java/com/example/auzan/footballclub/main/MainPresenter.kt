@@ -17,62 +17,65 @@ import org.jetbrains.anko.uiThread
  * Github: @auzanassdq
  */
 
-class MainPresenter (
+class MainPresenter(
     private val view: MainView,
     private val apiRepository: ApiRepository,
-    private val gson: Gson) {
+    private val gson: Gson
+) {
 
 
-    fun getEventPastList(){
+    fun getEventPastList() {
         view.showLoading()
         doAsync {
-            val data = gson.fromJson(apiRepository
-                .doRequest(TheSportDBApi.getEventPast()),
+            val data = gson.fromJson(
+                apiRepository
+                    .doRequest(TheSportDBApi.getEventPast()),
                 EventResponse::class.java
             )
 
             uiThread {
                 view.hideLoading()
-                view.showEventList(data.events!!)
+                view.showEventList(data.events)
             }
         }
     }
 
-    fun getEventNextList(){
+    fun getEventNextList() {
         view.showLoading()
         doAsync {
-            val data = gson.fromJson(apiRepository
-                .doRequest(TheSportDBApi.getEventNext()),
+            val data = gson.fromJson(
+                apiRepository
+                    .doRequest(TheSportDBApi.getEventNext()),
                 EventResponse::class.java
             )
 
             uiThread {
                 view.hideLoading()
-                view.showEventList(data.events!!)
+                view.showEventList(data.events)
             }
         }
     }
 
-    fun getFavorite(context: Context){
+    fun getFavorite(context: Context) {
         view.showLoading()
         val data: MutableList<EventItem> = mutableListOf()
 
-            doAsync {
-                context.database.use {
-                    val favorite = select(EventItem.TABLE_FAVORITES)
-                        .parseList(classParser<EventItem>())
+        doAsync {
+            context.database.use {
+                val favorite = select(EventItem.TABLE_FAVORITES)
+                    .parseList(classParser<EventItem>())
 
-                    data.addAll(favorite)
-                }
+                data.addAll(favorite)
+            }
 
-                uiThread {
-                    view.hideLoading()
-                    if (data.size > 0) {
-                        view.showEventList(data)
-                    } else {
-                        view.showEmptyData()
-                    }
+            uiThread {
+                view.hideLoading()
+                if (data.size > 0) {
+                    view.showEventList(data)
+                } else {
+                    view.showEmptyData()
                 }
             }
+        }
     }
 }
