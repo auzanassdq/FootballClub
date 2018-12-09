@@ -9,5 +9,5 @@ import com.example.auzan.footballclub.model.Team
 interface DetailView {
     fun showLoading()
     fun hideLoading()
-    fun showTeamDetails(homeTeam: List<Team>?, awayTeam: List<Team>?)
+    fun showTeamDetails(homeTeam: List<Team>, awayTeam: List<Team>)
 }

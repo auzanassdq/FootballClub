@@ -5,4 +5,4 @@ package com.example.auzan.footballclub.model
  * Github: @auzanassdq
  */
 
-data class EventResponse(val events: List<EventItem>?)
+data class EventResponse(val events: List<EventItem>)

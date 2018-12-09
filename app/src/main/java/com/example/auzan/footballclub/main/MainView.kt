@@ -10,5 +10,5 @@ interface MainView {
     fun showEmptyData()
     fun showLoading()
     fun hideLoading()
-    fun showEventList(data: List<EventItem>?)
+    fun showEventList(data: List<EventItem>)
 }

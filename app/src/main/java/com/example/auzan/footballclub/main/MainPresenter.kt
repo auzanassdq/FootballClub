@@ -7,10 +7,11 @@ import com.example.auzan.footballclub.db.database
 import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.model.EventResponse
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 /**
  * Created by auzan on 11/30/2018.
@@ -23,36 +24,31 @@ class MainPresenter(
     private val gson: Gson
 ) {
 
-
     fun getEventPastList() {
         view.showLoading()
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(
                 apiRepository
-                    .doRequest(TheSportDBApi.getEventPast()),
+                    .doRequest(TheSportDBApi.getEventPast()).await(),
                 EventResponse::class.java
             )
 
-            uiThread {
-                view.hideLoading()
-                view.showEventList(data.events)
-            }
+            view.hideLoading()
+            view.showEventList(data.events)
         }
     }
 
     fun getEventNextList() {
         view.showLoading()
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             val data = gson.fromJson(
                 apiRepository
-                    .doRequest(TheSportDBApi.getEventNext()),
+                    .doRequest(TheSportDBApi.getEventNext()).await(),
                 EventResponse::class.java
             )
 
-            uiThread {
-                view.hideLoading()
-                view.showEventList(data.events)
-            }
+            view.hideLoading()
+            view.showEventList(data.events)
         }
     }
 
@@ -60,7 +56,7 @@ class MainPresenter(
         view.showLoading()
         val data: MutableList<EventItem> = mutableListOf()
 
-        doAsync {
+        GlobalScope.launch(Dispatchers.Main) {
             context.database.use {
                 val favorite = select(EventItem.TABLE_FAVORITES)
                     .parseList(classParser<EventItem>())
@@ -68,13 +64,11 @@ class MainPresenter(
                 data.addAll(favorite)
             }
 
-            uiThread {
-                view.hideLoading()
-                if (data.size > 0) {
-                    view.showEventList(data)
-                } else {
-                    view.showEmptyData()
-                }
+            view.hideLoading()
+            if (data.size > 0) {
+                view.showEventList(data)
+            } else {
+                view.showEmptyData()
             }
         }
     }

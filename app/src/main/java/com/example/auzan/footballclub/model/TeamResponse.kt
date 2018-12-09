@@ -5,5 +5,5 @@ package com.example.auzan.footballclub.model
  * Github: @auzanassdq
  */
 
-class TeamResponse(val teams: List<Team>?)
+class TeamResponse(val teams: List<Team>)
 

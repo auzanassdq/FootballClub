@@ -18,9 +18,9 @@ import com.example.auzan.footballclub.R
 import com.example.auzan.footballclub.R.drawable.ic_favorite
 import com.example.auzan.footballclub.R.drawable.ic_favorite_border
 import com.example.auzan.footballclub.R.id.mn_favorites
-import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.db.database
+import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.model.Team
 import com.example.auzan.footballclub.util.changeFormatDate
 import com.example.auzan.footballclub.util.invisible
@@ -39,7 +39,7 @@ import org.jetbrains.anko.db.select
  * Github: @auzanassdq
  */
 
-class DetailActivity: AppCompatActivity(), DetailView {
+class DetailActivity : AppCompatActivity(), DetailView {
 
     private lateinit var eventItem: EventItem
     private lateinit var presenter: DetailPresenter
@@ -74,7 +74,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
@@ -102,7 +102,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
     private fun addFavorites() {
         try {
             database.use {
-                insert(EventItem.TABLE_FAVORITES,
+                insert(
+                    EventItem.TABLE_FAVORITES,
                     EventItem.ID_EVENT to eventItem.eventId,
                     EventItem.DATE to eventItem.eventDate,
 
@@ -130,7 +131,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                     EventItem.AWAY_LINEUP_DEFENSE to eventItem.awayLineupDefense,
                     EventItem.AWAY_LINEUP_MIDFIELD to eventItem.awayLineupMidfield,
                     EventItem.AWAY_LINEUP_FORWARD to eventItem.awayLineupForward,
-                    EventItem.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes)
+                    EventItem.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes
+                )
             }
 //            snackbar("Add to favorite").show()
             toast("Add to favorite").show()
@@ -142,9 +144,11 @@ class DetailActivity: AppCompatActivity(), DetailView {
     private fun removeFavorites() {
         try {
             database.use {
-                delete(EventItem.TABLE_FAVORITES,
+                delete(
+                    EventItem.TABLE_FAVORITES,
                     EventItem.ID_EVENT + " = {id}",
-                    "id" to eventItem.eventId.toString())
+                    "id" to eventItem.eventId.toString()
+                )
             }
             toast("Delete from favorite")
         } catch (e: SQLiteConstraintException) {
@@ -157,8 +161,10 @@ class DetailActivity: AppCompatActivity(), DetailView {
 
         database.use {
             val favorites = select(EventItem.TABLE_FAVORITES)
-                .whereArgs(EventItem.ID_EVENT + " = {id}",
-                    "id" to eventItem.eventId.toString())
+                .whereArgs(
+                    EventItem.ID_EVENT + " = {id}",
+                    "id" to eventItem.eventId.toString()
+                )
                 .parseList(classParser<EventItem>())
 
             bFavorite = !favorites.isEmpty()
@@ -182,7 +188,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
         Picasso.get().load(awayTeam[0].teamBadge).into(imgAwayBadge)
     }
 
-    private fun getTeam(event: EventItem){
+    private fun getTeam(event: EventItem) {
         val request = ApiRepository()
         val gson = Gson()
         presenter = DetailPresenter(this, request, gson)
@@ -192,7 +198,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
     }
 
 
-    private fun layoutDetailActivity(event: EventItem){
+    private fun layoutDetailActivity(event: EventItem) {
         val date = strToDate(event.eventDate)
         relativeLayout {
             lparams(matchParent, wrapContent)
@@ -228,7 +234,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.homeTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(this@DetailActivity,
+                                textColor = ContextCompat.getColor(
+                                    this@DetailActivity,
                                     R.color.colorPrimary
                                 )
                                 textSize = 18f
@@ -246,7 +253,7 @@ class DetailActivity: AppCompatActivity(), DetailView {
                                 text = event.homeScore
                             }
 
-                            textView{
+                            textView {
                                 padding = dip(16)
                                 textSize = 24f
                                 text = context.getString(R.string.VS)
@@ -273,7 +280,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                             textView {
                                 text = event.awayTeam
                                 gravity = Gravity.CENTER
-                                textColor = ContextCompat.getColor(this@DetailActivity,
+                                textColor = ContextCompat.getColor(
+                                    this@DetailActivity,
                                     R.color.colorPrimary
                                 )
                                 textSize = 18f
@@ -299,7 +307,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.goals)
@@ -322,7 +331,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.shots)
@@ -360,7 +370,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.goal_keeper)
@@ -384,7 +395,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.defense)
@@ -407,7 +419,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.midfield)
@@ -430,7 +443,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.forward)
@@ -453,7 +467,8 @@ class DetailActivity: AppCompatActivity(), DetailView {
                         textView {
                             leftPadding = dip(8)
                             rightPadding = dip(8)
-                            textColor = ContextCompat.getColor(this@DetailActivity,
+                            textColor = ContextCompat.getColor(
+                                this@DetailActivity,
                                 R.color.colorPrimary
                             )
                             text = context.getString(R.string.substitutes)
