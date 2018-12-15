@@ -134,7 +134,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                     EventItem.AWAY_LINEUP_SUBSTITUTES to eventItem.awayLineupSubstitutes
                 )
             }
-//            snackbar("Add to favorite").show()
+//            dataview.snackbar("Add to favorite").show()
             toast("Add to favorite").show()
         } catch (e: SQLiteConstraintException) {
             toast("Error: ${e.message}").show()

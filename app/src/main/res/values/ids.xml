@@ -6,4 +6,8 @@
     <item name="tv_away_score" type="id"/>
     <item name="tv_event_date" type="id" />
     <item name="btn_nv" type="id" />
+    <item name="rv_event" type="id"/>
+    <item name="btn_prev_match" type="id"/>
+    <item name="btn_next_match" type="id"/>
+    <item name="btn_fav" type="id"/>
 </resources>

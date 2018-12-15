@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity(), MainView {
                 relativeLayout {
 
                     listTeam = recyclerView {
+                        id = R.id.rv_event
                         layoutManager = LinearLayoutManager(context)
                     }.lparams(matchParent, matchParent) {
                         topOf(btn_nv)
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity(), MainView {
                         backgroundColor = Color.WHITE
 
                         menu.apply {
-                            add("Prev Match")
+                            add(0, R.id.btn_prev_match, 0, "Prev Match")
                                 .setIcon(R.drawable.ic_watch)
                                 .setOnMenuItemClickListener {
                                     presenter.getEventPastList()
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity(), MainView {
                                     false
                                 }
 
-                            add("Next Match")
+                            add(0, R.id.btn_next_match, 0,"Next Match")
                                 .setIcon(R.drawable.ic_event)
                                 .setOnMenuItemClickListener {
                                     presenter.getEventNextList()
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity(), MainView {
                                     }
                                     false
                                 }
-                            add("Favorite")
+                            add(0, R.id.btn_fav, 0,"Favorite")
                                 .setIcon(R.drawable.ic_favorite)
                                 .setOnMenuItemClickListener {
                                     presenter.getFavorite(this@MainActivity)
