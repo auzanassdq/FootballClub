@@ -46,10 +46,13 @@ class MainPresenterTest {
         val response = EventResponse(event)
 
         GlobalScope.launch {
-            `when` (gson.fromJson(apiRepository
-                .doRequest(TheSportDBApi.getEventPast()).await(),
-                EventResponse::class.java
-            )).thenReturn(response)
+            `when`(
+                gson.fromJson(
+                    apiRepository
+                        .doRequest(TheSportDBApi.getEventPast()).await(),
+                    EventResponse::class.java
+                )
+            ).thenReturn(response)
 
             presenter.getEventPastList()
 
@@ -65,10 +68,13 @@ class MainPresenterTest {
         val response = EventResponse(event)
 
         GlobalScope.launch {
-            `when` (gson.fromJson(apiRepository
-                .doRequest(TheSportDBApi.getEventNext()).await(),
-                EventResponse::class.java
-            )).thenReturn(response)
+            `when`(
+                gson.fromJson(
+                    apiRepository
+                        .doRequest(TheSportDBApi.getEventNext()).await(),
+                    EventResponse::class.java
+                )
+            ).thenReturn(response)
 
             presenter.getEventNextList()
 
