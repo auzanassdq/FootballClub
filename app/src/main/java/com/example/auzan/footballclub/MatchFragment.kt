@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.Fragment
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import kotlinx.android.synthetic.main.abc_action_bar_title_item.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.appBarLayout
@@ -24,13 +21,23 @@ import org.jetbrains.anko.support.v4.viewPager
 
 class MatchFragment : Fragment(), AnkoComponent<Context> {
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return createView(AnkoContext.create(requireContext()))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater?.inflate(R.menu.menu_search, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 
     override fun createView(ui: AnkoContext<Context>): View = with(ui) {
@@ -64,5 +71,6 @@ class MatchFragment : Fragment(), AnkoComponent<Context> {
 
         }
     }
+
 
 }

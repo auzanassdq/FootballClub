@@ -12,6 +12,7 @@
     <string name="midfield">Midfield</string>
     <string name="forward">Forward</string>
     <string name="substitutes">Substitutes</string>
+    <string name="search">Search</string>
 
     <array name="league">
         <item>English Premier League</item>
