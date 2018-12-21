@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
  * Created by auzan on 12/14/2018.
  * Github: @auzanassdq
  */
-class MainPresenterTest {
+class EventPresenterTest {
 
     @Mock
     private
@@ -32,12 +32,12 @@ class MainPresenterTest {
     private
     lateinit var apiRepository: ApiRepository
 
-    private lateinit var presenter: MainPresenter
+    private lateinit var presenter: EventPresenter
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = MainPresenter(view, apiRepository, gson)
+        presenter = EventPresenter(view, apiRepository, gson)
     }
 
     @Test

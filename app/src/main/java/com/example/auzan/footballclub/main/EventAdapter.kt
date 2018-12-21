@@ -22,7 +22,7 @@ import org.jetbrains.anko.cardview.v7.cardView
  * Github: @auzanassdq
  */
 
-class MainAdapter(
+class EventAdapter(
     private val eventItems: List<EventItem>,
     private val listener: (EventItem) -> Unit
 ) : RecyclerView.Adapter<EventViewHolder>() {
@@ -38,6 +38,28 @@ class MainAdapter(
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.bindItem(eventItems[position], listener)
+    }
+}
+
+class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    private val eventDate: TextView = view.find(tv_event_date)
+    private val homeTeam: TextView = view.find(tv_home_team)
+    private val homeScore: TextView = view.find(tv_home_score)
+    private val awayScore: TextView = view.find(tv_away_score)
+    private val awayTeam: TextView = view.find(tv_away_team)
+
+    fun bindItem(eventItem: EventItem, listener: (EventItem) -> Unit) {
+        val date = strToDate(eventItem.eventDate)
+        eventDate.text = changeFormatDate(date)
+
+        homeTeam.text = eventItem.homeTeam
+        homeScore.text = eventItem.homeScore
+
+        awayScore.text = eventItem.awayScore
+        awayTeam.text = eventItem.awayTeam
+
+        itemView.setOnClickListener { listener(eventItem) }
     }
 }
 
@@ -121,26 +143,4 @@ class EventUI : AnkoComponent<ViewGroup> {
         }
     }
 
-}
-
-class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-    private val eventDate: TextView = view.find(tv_event_date)
-    private val homeTeam: TextView = view.find(tv_home_team)
-    private val homeScore: TextView = view.find(tv_home_score)
-    private val awayScore: TextView = view.find(tv_away_score)
-    private val awayTeam: TextView = view.find(tv_away_team)
-
-    fun bindItem(eventItem: EventItem, listener: (EventItem) -> Unit) {
-        val date = strToDate(eventItem.eventDate)
-        eventDate.text = changeFormatDate(date)
-
-        homeTeam.text = eventItem.homeTeam
-        homeScore.text = eventItem.homeScore
-
-        awayScore.text = eventItem.awayScore
-        awayTeam.text = eventItem.awayTeam
-
-        itemView.setOnClickListener { listener(eventItem) }
-    }
 }

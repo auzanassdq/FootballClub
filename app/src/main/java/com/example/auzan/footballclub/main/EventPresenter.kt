@@ -18,7 +18,7 @@ import org.jetbrains.anko.db.select
  * Github: @auzanassdq
  */
 
-class MainPresenter(
+class EventPresenter(
     private val view: MainView,
     private val apiRepository: ApiRepository,
     private val gson: Gson
