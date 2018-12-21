@@ -1,4 +1,4 @@
-package com.example.auzan.footballclub
+package com.example.auzan.footballclub.event
 
 import android.content.Context
 import android.os.Bundle
@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Spinner
+import com.example.auzan.footballclub.R
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.detail.DetailActivity
 import com.example.auzan.footballclub.main.EventAdapter
@@ -21,7 +22,6 @@ import com.example.auzan.footballclub.model.EventItem
 import com.example.auzan.footballclub.util.invisible
 import com.example.auzan.footballclub.util.visible
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.notification_template_lines_media.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.onRefresh

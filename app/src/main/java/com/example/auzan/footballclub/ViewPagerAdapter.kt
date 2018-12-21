@@ -3,6 +3,8 @@ package com.example.auzan.footballclub
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.example.auzan.footballclub.event.LastEventFragment
+import com.example.auzan.footballclub.event.NextEventFragment
 
 /**
  * Created by auzan on 12/18/2018.

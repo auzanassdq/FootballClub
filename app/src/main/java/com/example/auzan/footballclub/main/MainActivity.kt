@@ -6,9 +6,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import com.example.auzan.footballclub.MatchFragment
+import com.example.auzan.footballclub.event.MatchFragment
 import com.example.auzan.footballclub.R
 import com.example.auzan.footballclub.R.id.btn_nv
+import com.example.auzan.footballclub.team.TeamsFragment
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.bottomNavigationView
 import org.jetbrains.anko.support.v4.onRefresh
@@ -53,15 +54,13 @@ class MainActivity : AppCompatActivity() {
                             false
                         }
 
-                    add(0, R.id.btn_next_match, 0, "Next Match")
+                    add(0, R.id.btn_next_match, 0, "Team")
                         .setIcon(R.drawable.ic_event)
                         .setOnMenuItemClickListener {
-                            presenter.getEventNextList()
-                            swipeRefresh.onRefresh {
-                                presenter.getEventNextList()
-                            }
+                            setFragment(TeamsFragment())
                             false
                         }
+
                     add(0, R.id.btn_fav, 0, "Favorite")
                         .setIcon(R.drawable.ic_favorite)
                         .setOnMenuItemClickListener {

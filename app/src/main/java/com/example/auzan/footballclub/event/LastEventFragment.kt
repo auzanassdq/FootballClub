@@ -1,4 +1,4 @@
-package com.example.auzan.footballclub
+package com.example.auzan.footballclub.event
 
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.Spinner
 import com.example.auzan.footballclub.R.color.colorAccent
 import com.example.auzan.footballclub.R.id.rv_event
-import com.example.auzan.footballclub.R.id.wrap
 import com.example.auzan.footballclub.api.ApiRepository
 import com.example.auzan.footballclub.detail.DetailActivity
 import com.example.auzan.footballclub.main.EventAdapter

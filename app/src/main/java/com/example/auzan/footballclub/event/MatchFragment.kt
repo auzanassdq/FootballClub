@@ -1,9 +1,11 @@
-package com.example.auzan.footballclub
+package com.example.auzan.footballclub.event
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import com.example.auzan.footballclub.R
+import com.example.auzan.footballclub.ViewPagerAdapter
 import kotlinx.android.synthetic.main.fragment_match.*
 
 /**
